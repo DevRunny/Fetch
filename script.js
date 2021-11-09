@@ -1,21 +1,18 @@
 let arrData = [];
 
-const getData = () => {
-  return fetch("db.json")
-    .then((response) => response.json())
+const getData = (url) => {
+  return fetch(url)
+    .then((response) => response.text())
     .then((data) => {
-      console.log(data);
       arrData.push(data);
     })
     .catch((error) => console.log(error));
 };
 
-console.log(arrData[0]);
-
 const sendData = () => {
   return fetch("https://jsonplaceholder.typicode.com/posts", {
     method: "POST",
-    body: arrData[0],
+    body: arrData,
     headers: {
       "Content-type": "application/json; charset=UTF-8",
     },
@@ -24,5 +21,7 @@ const sendData = () => {
     .then((json) => console.log(json));
 };
 
-getData();
-sendData();
+getData("./db.json");
+setTimeout(() => {
+  sendData();
+}, 1000);
